@@ -3,9 +3,16 @@ import { NestFactory } from '@nestjs/core';
 // import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
+import { VersioningType } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Api Versioning
+  app.enableVersioning({
+    type: VersioningType.URI,
+    prefix: 'v',
+  });
 
   // Uncomment to use global validation pipe
   // app.useGlobalPipes(
