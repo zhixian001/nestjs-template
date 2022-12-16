@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import configuration, { DatabaseConfig } from './config/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import DatabaseLogger from './utils/databaseLogger';
+import * as usersEntities from './users/entities';
 
 @Module({
   imports: [
@@ -25,7 +26,7 @@ import DatabaseLogger from './utils/databaseLogger';
         username: configService.get<DatabaseConfig>('database.postgres').user,
         password:
           configService.get<DatabaseConfig>('database.postgres').password,
-        entities: [],
+        entities: [...Object.values(usersEntities)],
         synchronize: true,
         logging: true,
         logger: new DatabaseLogger(),
