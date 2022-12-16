@@ -5,25 +5,15 @@ class DatabaseLogger implements TypeOrmLogger {
   private readonly logger = new NestLogger('Database');
 
   logQuery(query: string, parameters?: unknown[]) {
-    this.logger.log(
-      `${query} -- Parameters: ${this.stringifyParameters(parameters)}`,
-    );
+    this.logger.log(`${query}`);
   }
 
   logQueryError(error: string, query: string, parameters?: unknown[]) {
-    this.logger.error(
-      `${query} -- Parameters: ${this.stringifyParameters(
-        parameters,
-      )} -- ${error}`,
-    );
+    this.logger.error(`${query} -- ${error}`);
   }
 
   logQuerySlow(time: number, query: string, parameters?: unknown[]) {
-    this.logger.warn(
-      `Time: ${time} -- Parameters: ${this.stringifyParameters(
-        parameters,
-      )} -- ${query}`,
-    );
+    this.logger.warn(`Time: ${time} -- ${query}`);
   }
 
   logMigration(message: string) {
