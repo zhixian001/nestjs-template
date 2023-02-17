@@ -5,9 +5,21 @@ import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
 import { VersioningType } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { CustomOrigin } from '@nestjs/common/interfaces/external/cors-options.interface';
+
+const CORS_ALLOWLIST = [
+  'http://localhost:3000',
+  'http://localhost:4000',
+  'http://localhost:8080',
+];
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger:
+      process.env.NODE_ENV === 'production'
+        ? ['error', 'warn', 'log']
+        : ['error', 'warn', 'log', 'verbose', 'debug'],
+  });
 
   // Api Versioning
   app.enableVersioning({
@@ -22,6 +34,23 @@ async function bootstrap() {
   //     whitelist: true,
   //   }),
   // );
+
+  // Dynamic custom origin
+  const customOrigin: CustomOrigin = (
+    requestOrigin: string,
+    callback: (err: Error | null, origin?: string) => void,
+  ) => {
+    if (CORS_ALLOWLIST.includes(requestOrigin)) {
+      callback(null, requestOrigin);
+    } else {
+      callback(null, 'https://localhost:3030');
+    }
+  };
+
+  app.enableCors({
+    credentials: true,
+    origin: customOrigin,
+  });
 
   // API Docs
   const config = new DocumentBuilder()
