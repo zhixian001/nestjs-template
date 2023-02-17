@@ -5,7 +5,7 @@ class DatabaseLogger implements TypeOrmLogger {
   private readonly logger = new NestLogger('Database');
 
   logQuery(query: string, parameters?: unknown[]) {
-    this.logger.log(`${query}`);
+    this.logger.debug(`${query}`);
   }
 
   logQueryError(error: string, query: string, parameters?: unknown[]) {
@@ -29,7 +29,7 @@ class DatabaseLogger implements TypeOrmLogger {
       return this.logger.log(message);
     }
     if (level === 'info') {
-      return this.logger.debug(message);
+      return this.logger.log(message);
     }
     if (level === 'warn') {
       return this.logger.warn(message);
