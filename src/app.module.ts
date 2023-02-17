@@ -23,9 +23,17 @@ import * as usersEntities from './users/entities';
         type: 'postgres',
         host: configService.get<DatabaseConfig>('database.postgres').host,
         port: configService.get<DatabaseConfig>('database.postgres').port,
+        // database:
+        //   configService.get<DatabaseConfig>('database.postgres').database,
         username: configService.get<DatabaseConfig>('database.postgres').user,
         password:
           configService.get<DatabaseConfig>('database.postgres').password,
+
+        // uncomment below for sqlite
+        // type: 'sqlite',
+        // database: configService.get<DatabaseConfig>('database.sqlite').database,
+
+        // common typeorm settings
         entities: [...Object.values(usersEntities)],
         synchronize: true,
         logging: true,
