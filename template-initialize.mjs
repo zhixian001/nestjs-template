@@ -32,9 +32,9 @@ try {
     throw new Error('Home path does not exist');
   }
 
-  const gitConfigPath = `${homepath}/.gitconfig`;
+  const gitConfigPath = `${homePath}/.gitconfig`;
 
-  if (!fs.existsSync(gitconfigPath)) {
+  if (!fs.existsSync(gitConfigPath)) {
     throw new Error('Gitconfig does not exist');
   }
 
