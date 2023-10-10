@@ -2,10 +2,11 @@ import { NestFactory } from '@nestjs/core';
 // Uncomment to use global validation pipe
 // import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { AppModule } from './app.module';
 import { VersioningType } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { CustomOrigin } from '@nestjs/common/interfaces/external/cors-options.interface';
+
+import { AppModule } from './app.module';
 
 const CORS_ALLOWLIST = [
   'http://localhost:3000',
@@ -18,7 +19,7 @@ async function bootstrap() {
     logger:
       process.env.NODE_ENV === 'production'
         ? ['error', 'warn', 'log']
-        : ['error', 'warn', 'log', 'verbose', 'debug'],
+        : ['error', 'warn', 'log', 'debug', 'verbose'],
   });
 
   // Api Versioning
