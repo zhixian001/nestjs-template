@@ -41,10 +41,24 @@ async function bootstrap() {
     requestOrigin: string,
     callback: (err: Error | null, origin?: string) => void,
   ) => {
-    if (CORS_ALLOWLIST.includes(requestOrigin)) {
-      callback(null, requestOrigin);
-    } else {
-      callback(null, 'https://localhost:3030');
+    try {
+      const requestOriginURL = new URL(requestOrigin);
+
+      if (requestOriginURL.hostname.endsWith('jhyeom.com')) {
+        callback(null, requestOrigin);
+      } else if (
+        requestOriginURL.hostname === 'localhost' ||
+        requestOriginURL.hostname === '127.0.0.1'
+      ) {
+        // 모든 localhost 도메인에서 CORS 요청 허용하기
+        callback(null, requestOrigin);
+      } else if (CORS_ALLOWLIST.includes(requestOrigin)) {
+        callback(null, requestOrigin);
+      } else {
+        callback(null, 'https://*.jhyeom.com');
+      }
+    } catch (err) {
+      callback(null, 'https://*.jhyeom.com');
     }
   };
 
